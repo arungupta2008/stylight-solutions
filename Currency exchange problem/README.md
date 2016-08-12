@@ -9,13 +9,13 @@ Compile the java program by running following command:
 javac ExchangeRate.java
 ```   
 
-Run the program by running:
-```
+Run the program by running:    
+```   
 java ExchangeRate
-```.    
+```    
 
 ## Running Rest project 
-I'm using dropwizard for building the REST interface. It can be imported to intellij and can be run or the steps here can be followed: [https://github.com/dropwizard/dropwizard/tree/master/dropwizard-example](https://github.com/dropwizard/dropwizard/tree/master/dropwizard-example).      
+I'm using dropwizard for building the REST interface. dropwizard-example folder can be imported to intellij and can be run or the steps here can be followed: [https://github.com/dropwizard/dropwizard/tree/master/dropwizard-example](https://github.com/dropwizard/dropwizard/tree/master/dropwizard-example).      
 
 ## Output     
 
