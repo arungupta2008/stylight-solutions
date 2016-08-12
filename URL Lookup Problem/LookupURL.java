@@ -5,15 +5,19 @@ import java.io.FileReader;
 import java.util.Scanner; 
 
 public class LookupURL {
+    // Using Google's BiMap
     private BiMap<String, String> biMap = HashBiMap.create();
+
+    // Adding the dataset to BiMap
     public void buildHashmap(String line){
         String parts[] = line.split("  ");
-        String firstparts[] = parts[0].split("[/?&]+");
-        String secondparts[] = parts[1].split("[/?&]+");
-        for(int i=0; i < secondparts.length; i++ ){
-            biMap.put(firstparts[i+1], secondparts[i]);
+        String parameterURLParts[] = parts[0].split("[/?&]+");
+        String speakingURLParts[] = parts[1].split("[/?&]+");
+        for(int i=0; i < speakingURLParts.length; i++ ){
+            biMap.put(parameterURLParts[i+1], speakingURLParts[i]);
         }
     }
+    // convert parameterURL to speakingURL
     public String getSpeakingURL(String parameterURL){
         if(parameterURL == "/products"){
             return "/Fashion/";
@@ -23,30 +27,39 @@ public class LookupURL {
         String speakingURLEnd = "?";
         for(int i=1; i < parameterURLParts.length; i++ ){
             String biMapValue = biMap.get(parameterURLParts[i]);
+            // If Map value is found, use the fetched value
+            // Otherwise keep it as it is and append it at the end of URL
             if(biMapValue != null)
                 speakingURL += biMapValue + "/";
             else
                 speakingURLEnd += parameterURLParts[i] + "&";
         }
+        // Remove the trailing &
         speakingURLEnd = speakingURLEnd.substring(0,speakingURLEnd.length()-1);
         return speakingURL + speakingURLEnd;
     }
+
+    // convert speakingURL to parameterURL
     public String getParameterURL(String speakingURL){
         String speakingURLParts[] = speakingURL.split("[/?]+");
         String parameterURL = "/products?";
         String parameterURLEnd = "";
         for(int i=1; i < speakingURLParts.length; i++ ){
             String biMapKey = biMap.inverse().get(speakingURLParts[i]);
+            // If Map key is found, use the fetched key
+            // Otherwise keep it as it is and append it at the end of URL
             if(biMapKey != null)
                 parameterURL += biMapKey + "&";
             else
                 parameterURLEnd += speakingURLParts[i];
         }
+        // Remove the trailing &
         if (parameterURLEnd == "")
             parameterURL = parameterURL.substring(0,parameterURL.length()-1);
         return parameterURL + parameterURLEnd;
     }
     public static void main(String[] args) throws Exception {
+        // Reading the dataset and building the hashmap
         LookupURL lookup = new LookupURL();
         Scanner scan = new Scanner(System.in);
         System.out.println("=================== Loading the Dataset ===================");        
@@ -56,7 +69,8 @@ public class LookupURL {
             lookup.buildHashmap(line);
         }
         in.close();
-
+        
+        // Running Examples
         System.out.println("=================== Dataset Initialized =================== ");
         System.out.println("=================== Running Example =================== ");
         System.out.println("Looking for speaking URL for /products?gender=female&tag=1770214");
@@ -70,6 +84,7 @@ public class LookupURL {
         System.out.println("Parameterized URL Result: " + lookup.getParameterURL("/Women/Shoes/2dFtco1/?foo=bar&lorem=ipsum"));
         System.out.println("=================== Testing out user input ===================");
 
+        // Taking input from user
         while (true) {
            System.out.println("");
            System.out.println("Enter 1 to convert Speaking URL to Parameter URL");
