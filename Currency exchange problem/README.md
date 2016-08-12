@@ -1,4 +1,4 @@
-# URL Lookup problem     
+# Currency Exchange Problem        
 
 We should check if we have a good chance of winning in a game with two dices. The 
 values of the dices are added. We start the game with 50c and profit is calculated based on what is rolled. We try to roll dice 1000 times to see if we lose or win in the long run. 
